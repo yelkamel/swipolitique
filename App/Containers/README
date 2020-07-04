@@ -1,0 +1,462 @@
+
+/*
+const pageArray = [
+{
+  title: "Glisser la proposition,",
+  description: "à droite pour aimer et à gaucher dans le cas contraire",
+  img: Images.SwipRight,
+  imgStyle: {
+    height: 185,
+    width: 209,
+  },
+  backgroundColor: Colors.darkaccent,
+  fontColor: '#fff',
+  level: 20,
+},
+{
+  title: "Cliquer sur voir,",
+  description: "si vous voulez dévoiler la proposition anonyme.",
+  img: Images.ShowOption,
+  imgStyle: {
+    height: 129,
+    width: 268,
+  },
+  backgroundColor: Colors.darkaccent,
+  fontColor: '#fff',
+  level: 20,
+},
+{
+  title: "Naviguer avec les onglets,",
+  description: "pour générer votre classement et mettre un filtre.",
+  img: Images.MenuTab,
+  imgStyle: {
+    height: 86,
+    width: 260,
+  },
+  backgroundColor: Colors.darkaccent,
+  fontColor: '#fff',
+  level: 20,
+},
+]
+*/
+
+
+
+/*
+if (__DEV__ && console.tron) {
+  // straight-up string logging
+  console.tron.log('Hello, I\'m an example of how to log via Reactotron.')
+
+  // logging an object for better clarity
+  console.tron.log({
+    message: 'pass objects for better logging',
+    someGeneratorFunction: selectTemperature
+  })
+
+console.tron.display({
+  name: '🔥 IGNITE 🔥',
+  preview: 'You should totally expand this',
+  value: {
+    '💃': 'Welcome to the future!',
+    subObject,
+    someInlineFunction: () => true,
+    someGeneratorFunction: startup,
+    someNormalFunction: selectTemperature
+  }
+})
+Reactotron.clear()
+*/
+
+
+
+
+import React, {
+  Component,
+} from 'react';
+
+import {
+  View,
+  Text,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  StyleSheet,
+  Platform,
+} from 'react-native';
+import { Images, Colors, Metrics, Fonts } from '../../Themes'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Chart from 'react-native-chart';
+
+import FoldView from 'react-native-foldview';
+import Pie from '../MyPie'
+import * as Animatable from 'react-native-animatable'
+
+import MyProgressBar  from '../MyProgressBar'
+
+
+
+import {
+  ThinGrayLine,
+  ThickGrayLine,
+  ThickDarkGrayLine,
+} from './Lines';
+
+type ProfileCardProps = {
+  by: string,
+  nbLike: number,
+  nbSwip: number,
+  maxCard: number,
+  maxLike: number,
+}
+
+
+export default class Row extends Component {
+  props: ProfileCardProps
+
+  componentWillMount() {
+    this.renderBackface = this.renderBackface.bind(this);
+    this.renderInnerBackFace = this.renderInnerBackFace.bind(this);
+
+
+  }
+
+
+
+  renderBlankFace() {
+    // transition backgroundColor Gris Clair
+    if (Platform.OS === 'android'){
+
+    }
+    else {
+    return (
+      <View
+        style={{
+          backgroundColor: '#BDC2C9',
+          flex: 1,
+        }}
+      />
+    )
+  }
+  }
+
+  renderBlankFace2(){
+    if (Platform.OS === 'android'){
+
+    }
+    else {
+    return (
+            <View style={{
+                flex: 1,
+                backgroundColor: '#BDC2C9',
+                justifyContent: 'center',
+              }}>
+              <Text style={styles.swipStatsText}>
+               Merci
+              </Text>
+            </View>
+    )
+  }
+  }
+
+  easingBar(){
+    this.refs.barView.fadeInLeftBig(1500)
+  }
+
+  renderBackface() {
+    const onPress = this.props.onPress;
+    return (
+      <View style={{ flex: 1 }}>
+        <FoldView
+          renderFrontface={this.renderBlankFace}
+          renderBackface={this.renderInnerBackFace}
+        >
+
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            flexDirection: 'row',
+            backgroundColor: '#FFFFFF',
+            borderTopWidth: StyleSheet.hairlineWidth,
+            borderTopColor: '#BDC2C9',
+          }}
+        >
+
+          <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row' }}>
+            <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
+            <Text style={styles.swipStatsText}>
+             {this.props.nbLike}
+            </Text>
+            <Icon name="thumbs-up" size={20} color={Colors.like} />
+          </View>
+
+              <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
+              <Text style={styles.swipStatsText}>
+               {this.props.nbSwip - this.props.nbLike }
+              </Text>
+              <Icon name="thumbs-down" size={20} color={Colors.notlike} />
+              </View>
+
+          </View>
+
+        </View>
+        </FoldView>
+
+      </View>
+    );
+  }
+
+  renderPie(like){
+    return (<Pie
+       radius={25}
+       series={[like, 100 - like]}
+       colors={[Colors.like, Colors.tweetColor]} />)
+  }
+
+  renderInnerBackFace() {
+    const onPress = this.props.onPress;
+    return (
+      <View
+       style={{
+         backgroundColor: '#fff',
+         flex: 1,
+         borderTopWidth: StyleSheet.hairlineWidth,
+         borderTopColor: '#BDC2C9',
+         borderBottomRightRadius: 10,
+         borderBottomLeftRadius: 10,
+       }}
+     >
+
+         <TouchableHighlight
+           style={{
+             flex: 1,
+             backgroundColor: '#FFFFFF',
+             flexDirection: 'column',
+             justifyContent: 'center',
+             alignItems: 'flex-end',
+             marginRight: Metrics.marginFirstPage,
+             borderBottomLeftRadius: 10,
+             borderBottomRightRadius: 10,
+           }}
+           onPress={onPress}
+         >
+         <Icon name="minus-square" size={30} color={Colors.highaccent} />
+
+         </TouchableHighlight>
+     </View>
+    );
+  }
+
+  renderFoldView (){
+    if (Platform.OS == 'android')
+      return (<View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent : 'center',
+                  flexDirection: 'row',
+                  backgroundColor: '#FFFFFF',
+                }}
+              >
+                <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row' }}>
+                  <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
+                  <Text style={styles.swipStatsText}>
+                   {this.props.nbLike}
+                  </Text>
+                  <Icon name="thumbs-up" size={20} color={Colors.like} />
+                </View>
+                <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
+                  <Text style={styles.swipStatsText}>
+                   {this.props.nbSwip - this.props.nbLike }
+                  </Text>
+                  <Icon name="thumbs-down" size={20} color={Colors.notlike} />
+                </View>
+                <TouchableWithoutFeedback
+                  onPress={this.props.onPress}>
+                <View  style={{
+                    flex: 1,
+                    backgroundColor: '#FFFFFF',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'flex-end',
+                    marginHorizontal: Metrics.marginFirstPage,
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10,
+                  }}>
+                  <Icon name="minus-square" size={30} color={Colors.highaccent} />
+                </View>
+                </TouchableWithoutFeedback>
+                </View>
+              </View>)
+
+    return (<FoldView
+                renderFrontface={this.renderBlankFace2}
+                renderBackface={this.renderBackface}
+              >
+            </FoldView>)
+  }
+
+  renderBarList(tab : Array<Object>){
+    return (
+        tab.map((cell, i) => {
+          return (
+            <View key={i} style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+            }}>
+
+                <View style={{
+                    justifyContent:'flex-start',
+                    alignItems:'flex-end',
+                    flex:1,
+                  }}>
+                  <Text style={{
+                      textAlign: 'right',
+                      color: 'black' ,
+                      fontSize: Fonts.size.small}}>
+                    {cell.title}
+                  </Text>
+                </View>
+                <View style={{
+                    justifyContent: 'flex-start',
+                    borderLeftColor: Colors.accent,
+                    borderLeftWidth: 3,
+                    marginLeft: 3,
+                    flex:1,
+                  }}>
+                  <View
+                    style={{
+                      marginTop: 3,
+                      width: cell.score* Metrics.barUnitCol,
+                      height: Metrics.RowHeight / 9,
+                      borderBottomRightRadius: 30,
+                      borderTopRightRadius: 30,
+                      backgroundColor: cell.color}}>
+                  </View>
+                </View>
+      </View>
+        )
+          })
+        )
+  }
+
+  render() {
+
+    const onPress = this.props.onPress
+
+    var pLike = (this.props.nbLike / this.props.maxCard) * 100
+    var pNot = ( (this.props.nbSwip - this.props.nbLike) / this.props.maxCard) * 100
+
+    var cardrest = (this.props.maxCard - this.props.nbSwip / this.props.maxCard) * 100
+    var cLike = (this.props.nbLike/ this.props.nbSwip) * 100
+    var data = [{
+      score: pLike + pNot,
+      title: "Swipé",
+      color: Colors.tweetColor
+    },
+
+    {
+      score: pLike,
+      title: "Aimé",
+      color: Colors.like
+    },
+    {
+      score: pNot,
+      title: "Ignoré",
+      color: Colors.notlike
+    },
+    {
+      score: 100 - (pLike + pNot),
+      title: "Restant",
+      color: Colors.steel
+    }
+  ]
+    var preparedData = [[ pLike + pNot,'Swipé'], [100 - (pLike + pNot),'Restante'], [pLike,'Aimé' ], ['Ignoré', pNot]]
+
+    return (
+      <View
+        style={{
+          backgroundColor: '#fff',
+          flexDirection: 'column',
+          flex:1,
+        }}
+      >
+
+      <View style={{
+        flex:2,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+       }} >
+       <View style={{
+         width: 50,
+         height: 50,
+         alignItems: 'center',
+         marginLeft: 10,
+        }} >
+        {this.renderPie(cLike)}
+     </View>
+       <View style={{
+         flex:2,
+         marginTop: 3,
+         marginBottom: 3,
+         flexDirection: 'column',
+         alignItems:'flex-start',
+         justifyContent: 'center'
+        }} >
+
+         {this.renderBarList(data)}
+       </View>
+
+
+      </View>
+
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          flexDirection: 'row',
+          backgroundColor: '#FFFFFF',
+          borderTopWidth: StyleSheet.hairlineWidth,
+          borderTopColor: '#BDC2C9',
+         }} >
+
+         {this.renderFoldView()}
+
+        </View>
+
+      </View>
+
+    );
+  }
+}
+//          {this.renderBarList(data)}
+
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'white',
+  },
+  gauge: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gaugeText: {
+    backgroundColor: 'transparent',
+    color: '#000',
+    fontSize: 24,
+  },
+  swipStatsText:{
+    color: Colors.accent,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontFamily: 'HelveticaNeue-Italic',
+    fontSize: Fonts.size.regular,
+    marginHorizontal:  Metrics.section
+  },
+  // BAR
+});
