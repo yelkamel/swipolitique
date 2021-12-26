@@ -1,71 +1,46 @@
-# OSX
-#
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
 .DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
 
-# ASSETS
-assets/
-
-# Xcode
-#
-build/
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata
-*.xccheckout
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-*.xcuserstate
-project.xcworkspace
-android/app/src/main/assets/index.android.bundle
-ios/main.jsbundle
-ios/main.jsbundle.meta
-ios/GoogleService-Info.plist
-ios/RichPush.framework/
-android/app/google-services.json
-
-### CocoaPods ###
-Pods
-Podfile.lock
-
-# Android/IJ
-#
+# IntelliJ related
 *.iml
-.idea
-.gradle
-local.properties
+*.ipr
+*.iws
+.idea/
 
-# node.js
-#
-node_modules/
-npm-debug.log
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
 
-# BUCK
-buck-out/
-\.buckd/
-android/keystores/debug.keystore
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
 
-# Visual Studio code
-.vscode/
-typings/
+# Web related
+lib/generated_plugin_registrant.dart
 
-# DocGen
-docs/docgen-input.json
+# Symbolication related
+app.*.symbols
 
-#amplify
-amplify/\#current-cloud-backend
-amplify/.config/local-*
-amplify/backend/amplify-meta.json
-amplify/backend/awscloudformation
-build/
-dist/
-node_modules/
-aws-exports.js
-awsconfiguration.json
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
