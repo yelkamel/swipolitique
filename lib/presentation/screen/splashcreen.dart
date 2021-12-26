@@ -17,9 +17,7 @@ class Splashscreen extends StatelessWidget {
           return const LoadingCircle();
         }
 
-        if (snapshot.hasData && (!snapshot.data!.isAnonymous)) {
-          return const HomeScreen();
-        }
+        if (snapshot.hasData) return const HomeScreen();
 
         return const OnboardingFunnel();
       },

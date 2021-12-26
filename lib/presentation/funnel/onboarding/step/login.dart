@@ -58,7 +58,6 @@ class LoginStep extends StatelessWidget {
                           createDate: DateTime.now(),
                         );
                         Database.setCitizen(citizen);
-                        Get.toNamed('/home');
                       }
                     },
                   ),
